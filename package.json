@@ -1,0 +1,36 @@
+{
+  "name": "explorerserver",
+  "version": "1.0.0",
+  "description": "The purpose of this project is to assist in development and debugging on the Peerplays BlockChain.",
+  "scripts": {
+    "start": "node utils/populate.js",
+    "create": "node utils/create.js",
+    "clean": "node utils/cleanDB.js",
+    "listen": "node index.js",
+    "listenForever": "./node_modules/.bin/forever node index.js",
+    "populate": "node utils/populate.js",
+    "populateForever": "./node_modules/.bin/forever utils/populate.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "TODO:// git+https://himanshu-pbsa@bitbucket.org/KeeganPBSA/explorerserver.git"
+  },
+  "author": "",
+  "licenses": [
+    {
+      "license": "MIT"
+    }
+  ],
+  "homepage": "TODO:// https://bitbucket.org/KeeganPBSA/explorerserver#readme",
+  "dependencies": {
+    "clean-mongo": "^1.0.2",
+    "dotenv": "^4.0.0",
+    "forever": "^0.15.3",
+    "mongodb": "^2.2.33",
+    "peerplaysjs-lib": "^0.4.19",
+    "peerplaysjs-ws": "^0.1.11"
+  },
+  "engines": {
+    "node": ">=v6.12.3"
+  }
+}

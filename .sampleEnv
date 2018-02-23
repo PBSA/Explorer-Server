@@ -1,0 +1,4 @@
+AUTH=false
+DB_USER=
+DB_PASS=
+DB_IP=127.0.0.1
