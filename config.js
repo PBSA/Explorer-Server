@@ -14,7 +14,7 @@ const environments = {
   },
   dev: {
     ENVIRONMENT: 'dev',
-    MONGO: 'mongodb://localhost:27017/public_test',
+    MONGO: 'mongodb://localhost:27017/private_test',
     BLOCKCHAIN: '' // Populate with your local testnet values.
   }
 };
