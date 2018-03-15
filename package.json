@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "TODO:// git+https://himanshu-pbsa@bitbucket.org/KeeganPBSA/explorerserver.git"
+    "url": "https://github.com/PBSA/Explorer-Server.git"
   },
   "author": "",
   "licenses": [
@@ -21,14 +21,15 @@
       "license": "MIT"
     }
   ],
-  "homepage": "TODO:// https://bitbucket.org/KeeganPBSA/explorerserver#readme",
+  "homepage": "https://github.com/PBSA/Explorer-Server#readme",
   "dependencies": {
-    "clean-mongo": "^1.0.2",
-    "dotenv": "^4.0.0",
-    "forever": "^0.15.3",
-    "mongodb": "^2.2.33",
-    "peerplaysjs-lib": "^0.4.19",
-    "peerplaysjs-ws": "^0.1.11"
+    "clean-mongo": "1.0.2",
+    "dotenv": "4.0.0",
+    "express": "4.16.3",
+    "forever": "0.15.3",
+    "mongodb": "2.2.33",
+    "peerplaysjs-lib": "0.4.19",
+    "peerplaysjs-ws": "0.1.11"
   },
   "engines": {
     "node": ">=v6.12.3"
