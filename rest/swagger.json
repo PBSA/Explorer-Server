@@ -6,7 +6,6 @@
     "description": "A RESTful api for retrieving information from the Peerplays BlockChain"
   },
   "host": "",
-  "basePath": "/api",
   "consumes": [
     "application/json"
   ],
@@ -14,7 +13,7 @@
     "application/json"
   ],
   "paths": {
-    "/accounts": {
+    "/api/accounts": {
       "summary": "Operations realting to accounts on the BlockChain",
       "get": {
         "operationId": "get accounts",
@@ -67,7 +66,7 @@
         }
       }
     },
-    "/accounts/{id}": {
+    "/api/accounts/{id}": {
       "get": {
         "operationId": "get account detail",
         "summary": "Retrieve detail information for a specific account.",
@@ -93,7 +92,7 @@
         }
       }
     },
-    "/accounts/{id}/history": {
+    "/api/accounts/{id}/history": {
       "get": {
         "operationId": "get account history",
         "summary": "Retrieve history for a specific account starting at the most recent transaction and working backwards.",
@@ -140,7 +139,7 @@
         }
       }
     },
-    "/accounts/{id}/balances": {
+    "/api/accounts/{id}/balances": {
       "get": {
         "operationId": "get account balances",
         "summary": "Get the account balances for the requested assets.",
@@ -174,7 +173,7 @@
         }
       }
     },
-    "/blocks/{id}": {
+    "/api/blocks/{id}": {
       "get": {
         "operation": "get block detail",
         "summary": "Retrive a single block from the BlockChain.",
@@ -197,7 +196,7 @@
         }
       }
     },
-    "/blocks/{id}/header": {
+    "/api/blocks/{id}/header": {
       "get": {
         "operation": "get block header",
         "summary": "Retrieve the header for a single block.",
@@ -220,7 +219,7 @@
         }
       }
     },
-    "/objects/{id}": {
+    "/api/objects/{id}": {
       "get": {
         "operation": "get raw object",
         "summary": "Retrieve the specified object.",
@@ -243,7 +242,7 @@
         }
       }
     },
-    "/operations/{id}": {
+    "/api/operations/{id}": {
       "get": {
         "operation": "get operation",
         "summary": "Retrieve the specified operation.",
@@ -266,7 +265,7 @@
         }
       }
     },
-    "/witnesses": {
+    "/api/witnesses": {
       "get": {
         "operation": "get all witnesses",
         "summary": "Retrieve all of the witnesses.",
@@ -315,7 +314,7 @@
         }
       }
     },
-    "/witnesses/{id}": {
+    "/api/witnesses/{id}": {
       "get": {
         "operationId": "get witness detail",
         "summary": "Retrieve detail information for a specific witness.",

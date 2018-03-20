@@ -1,6 +1,8 @@
+const fs = require('fs');
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
+const customCss = fs.readFileSync('assets/custom.css').toString();
 
 // Routes
 const accountsRouter = require('./accounts');
@@ -38,7 +40,17 @@ module.exports = class RestServer {
    * Attach each of the routers to their respective urls.
    */
   attachRoutes () {
-    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+    var swaggerOptions = {
+      customCss,
+      customJs: '/assets/custom.js',
+      customfavIcon: '/assets/pp_favicon.png',
+      customSiteTitle: 'Peerplays'
+    };
+
+    this.app.use('/assets', express.static('assets'));
+
+    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
     this.app.use('/api/accounts', accountsRouter(this.blockchainAPI));
     this.app.use('/api/blocks', blocksRouter(this.blockchainAPI));
     this.app.use('/api/objects', objectsRouter(this.blockchainAPI));
