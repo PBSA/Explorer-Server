@@ -14,7 +14,7 @@
   ],
   "paths": {
     "/api/accounts": {
-      "summary": "Operations realting to accounts on the BlockChain",
+      "summary": "Operations relating to accounts on the BlockChain",
       "get": {
         "operationId": "get accounts",
         "summary": "Get a list of all the accounts on the BlockChain.",
@@ -176,7 +176,7 @@
     "/api/blocks/{id}": {
       "get": {
         "operation": "get block detail",
-        "summary": "Retrive a single block from the BlockChain.",
+        "summary": "Retrieve a single block from the BlockChain.",
         "parameters": [
           {
             "name": "id",
@@ -259,7 +259,7 @@
           "200": {
             "description": "Operation",
             "examples": {
-              "application/json": "TODO: NEED A TRANSACTION TO TEST WITH"
+              "application/json": "{\n  \"id\": \"1.11.xxx\",\n  \"op\": [\n    49,\n    {\n      \"fee\": {\n        \"amount\": 0,\n        \"asset_id\": \"1.3.0\"\n      },\n      \"dividend_asset_id\": \"1.3.0\",\n      \"account_id\": \"1.2.x\",\n      \"amounts\": [\n        {\n          \"amount\": 1126,\n          \"asset_id\": \"1.3.0\"\n        }\n      ],\n      \"extensions\": []\n    }\n  ],\n  \"result\": [0, {}],\n  \"block_num\": 1627629,\n  \"trx_in_block\": 0,\n  \"op_in_trx\": 1,\n  \"virtual_op\": 4517\n}\n"
             }
           }
         }
