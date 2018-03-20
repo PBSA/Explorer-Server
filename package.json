@@ -29,7 +29,8 @@
     "forever": "0.15.3",
     "mongodb": "2.2.33",
     "peerplaysjs-lib": "0.4.19",
-    "peerplaysjs-ws": "0.1.11"
+    "peerplaysjs-ws": "0.1.11",
+    "swagger-ui-express": "2.0.15"
   },
   "engines": {
     "node": ">=v6.12.3"

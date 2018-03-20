@@ -1,4 +1,6 @@
 const express = require('express');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 // Routes
 const accountsRouter = require('./accounts');
@@ -36,11 +38,12 @@ module.exports = class RestServer {
    * Attach each of the routers to their respective urls.
    */
   attachRoutes () {
-    this.app.use('/accounts', accountsRouter(this.blockchainAPI));
-    this.app.use('/blocks', blocksRouter(this.blockchainAPI));
-    this.app.use('/objects', objectsRouter(this.blockchainAPI));
-    this.app.use('/operations', operationsRouter(this.blockchainAPI));
-    this.app.use('/witnesses', witnessesRouter(this.blockchainAPI));
+    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    this.app.use('/api/accounts', accountsRouter(this.blockchainAPI));
+    this.app.use('/api/blocks', blocksRouter(this.blockchainAPI));
+    this.app.use('/api/objects', objectsRouter(this.blockchainAPI));
+    this.app.use('/api/operations', operationsRouter(this.blockchainAPI));
+    this.app.use('/api/witnesses', witnessesRouter(this.blockchainAPI));
   }
 
   /**
