@@ -4,6 +4,9 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const customCss = fs.readFileSync('assets/custom.css').toString();
 
+// Middleware
+const middleware = require('./middleware');
+
 // Routes
 const accountsRouter = require('./accounts');
 const blocksRouter = require('./blocks');
@@ -41,6 +44,7 @@ module.exports = class RestServer {
    */
   attachRoutes () {
 
+    // Configuration for the documentation page.
     var swaggerOptions = {
       customCss,
       customJs: '/assets/custom.js',
@@ -48,6 +52,10 @@ module.exports = class RestServer {
       customSiteTitle: 'Peerplays'
     };
 
+    // Apply the middleware on options requests.
+    this.app.use(middleware.applyCorsHeaders);
+
+    // Serve up static assets for the documentation page.
     this.app.use('/assets', express.static('assets'));
 
     this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
