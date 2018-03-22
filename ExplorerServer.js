@@ -74,7 +74,7 @@ class ExplorerServer {
       console.log(`ExplorerServer> Connected to ${config.MONGO}`);
   
       db.createCollection('blocks', this.collectionCreated.bind(this, db, 'blocks', callback));
-      db.createCollection('transactions', this.collectionCreated.bind(this, db, 'transactions', callback));
+      db.createCollection('meta', this.collectionCreated.bind(this, db, 'meta', callback));
     });
   
   }
@@ -98,7 +98,7 @@ class ExplorerServer {
   
     this.collections[collection] = true;
 
-    if (this.collections.blocks && this.collections.transactions) {
+    if (this.collections.blocks && this.collections.meta) {
 
       // Close the connection to Mongo.
       db.close();
@@ -135,15 +135,25 @@ class ExplorerServer {
         throw new Error('ExplorerServer> Unable to retrieve the head block, check your connection to the BlockChain.');
       }
 
-      // Get the latest block reference in the dynamicGlobal.
-      this.insertBlock(dynamicGlobal.head_block_number, (error, block) => {
+      // Update the cached dynamic global object.
+      this.updateDynamicGlobal(dynamicGlobal, (error) => {
 
         if (error) {
-          throw error;
+          // Log the error but allow the next operation to continue.
+          console.error(`Error updating the dynamic global : ${error.message}`);
         }
 
-        this.logBlockData(block);
-      });
+        // Get the latest block reference in the dynamicGlobal.
+        this.insertBlock(dynamicGlobal.head_block_number, (error, block) => {
+
+          if (error) {
+            return console.error(`Error inserting block : ${error.message}`);
+          }
+
+          this.logBlockData(block);
+        });
+
+      })
 
     });
 
@@ -305,6 +315,9 @@ class ExplorerServer {
         // Insert the block into the blocks collection in Mongo
         db.collection('blocks').insertOne(block, (error) => {
 
+          // Close the connection to Mongo.
+          db.close();
+
           if (error) { 
             return callback(error);
           }
@@ -316,9 +329,6 @@ class ExplorerServer {
             block.backlog = true;
             this.logBlockData(block);
           }
-      
-          // Close the connection to Mongo.
-          db.close();
 
           return callback(null, block);
 
@@ -328,6 +338,46 @@ class ExplorerServer {
 
     });
 
+  }
+
+
+  /**
+   * Update the DynamicGlobal object stored in the database. 
+   * 
+   * @param {object} dynamicGlobal 
+   * @param {function} callback 
+   * @memberof ExplorerServer
+   */
+  updateDynamicGlobal (dynamicGlobal, callback) {
+     // Establish a connection to the MongoDatabase.
+     MongoClient.connect(config.MONGO, (error, db) => {
+
+      var options;
+
+      if (error) {
+        return callback(error);
+      }
+
+      // Create the document if it does not exist.
+      options = {
+        upsert: true
+      };
+
+      // Update the specific dynamic global document in the meta collection.
+      db.collection('meta').update({_id: '2.1.0'}, dynamicGlobal, options, (error) => {
+
+        // Clean up the connection to the database
+        db.close();
+
+        if (error) {
+          return callback(error);
+        }
+
+        return callback(error, null);
+
+      });
+
+    });
   }
 
   /**

@@ -24,12 +24,13 @@ module.exports = function (blockchainAPI) {
       var start = 0;
       var limit = 100;
 
-      if (req.query.start) {
-        start = req.query.start;
+      // Make sure the query params are numbers
+      if (!isNaN(req.query.start)) {
+        start = parseInt(req.query.start, 10);
       }
 
-      if (req.query.limit) {
-        limit = req.query.limit;
+      if (!isNaN(req.query.limit)) {
+        limit = parseInt(req.query.limit, 10);
       }
 
       blockchainAPI.db_api()
