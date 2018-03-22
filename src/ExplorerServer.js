@@ -5,17 +5,20 @@ const ChainStore = Peerplays.ChainStore;
 
 const { Apis } = require('peerplaysjs-ws');
 
-const config = require('./config');
+const config = require('../config');
 
 class ExplorerServer {
 
   constructor (connect, ready) {
+    
     
     if (typeof connect === 'function') {
       ready = connect;
       connect = true;
     }
     
+    this.socketServer = null;
+
     this.collections = {
       transactions: false,
       blocks: false
@@ -148,6 +151,11 @@ class ExplorerServer {
 
           if (error) {
             return console.error(`Error inserting block : ${error.message}`);
+          }
+
+          // If we have an instance of the socketServer lets broadcast an event with the new block.
+          if (this.socketServer) {
+            this.socketServer.broadcastBlock(block);
           }
 
           this.logBlockData(block);

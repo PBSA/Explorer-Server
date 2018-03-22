@@ -1,6 +1,6 @@
 const express = require('express');
 const MongoClient = require('mongodb');
-const config = require('../config');
+const config = require('../../config');
 const errors = require('../utils/errors');
 
 const BLOCK_NOT_FOUND = 'Block does not exist.';

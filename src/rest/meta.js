@@ -2,7 +2,7 @@ const express = require('express');
 const MongoClient = require('mongodb');
 const errors = require('../utils/errors');
 
-const config = require('../config');
+const config = require('../../config');
 
 module.exports = function () {
 
