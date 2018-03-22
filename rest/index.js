@@ -12,6 +12,7 @@ const accountsRouter = require('./accounts');
 const blocksRouter = require('./blocks');
 const objectsRouter = require('./objects');
 const operationsRouter = require('./operations');
+const metaRouter = require('./meta');
 const witnessesRouter = require('./witnesses');
 
 module.exports = class RestServer {
@@ -63,6 +64,7 @@ module.exports = class RestServer {
     this.app.use('/api/blocks', blocksRouter(this.blockchainAPI));
     this.app.use('/api/objects', objectsRouter(this.blockchainAPI));
     this.app.use('/api/operations', operationsRouter(this.blockchainAPI));
+    this.app.use('/api/meta', metaRouter());
     this.app.use('/api/witnesses', witnessesRouter(this.blockchainAPI));
   }
 

@@ -162,8 +162,8 @@ class ExplorerServer {
   /**
    * Get a single object from the BlockChain. 
    * 
-   * @param {string} assetId The ID of the transaction to retrive.
-   * @param {function} callback Called with the found transaction object.
+   * @param {string} assetId The ID of the object to retrive.
+   * @param {function} callback
    * @memberof ExplorerServer
    */
   getObject (assetId, callback) {
@@ -172,10 +172,9 @@ class ExplorerServer {
       callback = assetId;
       assetId = null;
     } 
-
-    // Capture both cases where the assetId isn't passed, or its passed as null.
+ 
     if (!assetId) {
-      assetId = '1.11.10000';
+      return callback(new Error('Missing asset id.'));
     }
 
     this.api.db_api()
@@ -349,8 +348,9 @@ class ExplorerServer {
    * @memberof ExplorerServer
    */
   updateDynamicGlobal (dynamicGlobal, callback) {
-     // Establish a connection to the MongoDatabase.
-     MongoClient.connect(config.MONGO, (error, db) => {
+
+    // Establish a connection to the MongoDatabase.
+    MongoClient.connect(config.MONGO, (error, db) => {
 
       var options;
 
@@ -369,11 +369,7 @@ class ExplorerServer {
         // Clean up the connection to the database
         db.close();
 
-        if (error) {
-          return callback(error);
-        }
-
-        return callback(error, null);
+        return callback(error);
 
       });
 
