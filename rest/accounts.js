@@ -46,7 +46,11 @@ module.exports = function (blockchainAPI) {
       blockchainAPI.db_api()
       .exec('get_account_count', [])
       .then(count => res.set('X-Total-Count', count).end())
-      .catch(() => res.status(500).end());
+      .catch((error) => {
+        // Print the error to the logs since we can't return it in the response.
+        console.error(error);
+        res.status(500).end()
+      });
     });
 
   /**

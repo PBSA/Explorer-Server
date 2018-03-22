@@ -173,6 +173,36 @@
         }
       }
     },
+    "/api/blocks": {
+      "get": {
+        "operation": "get blocks",
+        "summary": "Retrieve a list of blocks from the BlockChain.",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Starting block.",
+            "type": "int32",
+            "required": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of blocks to return. Default is 10, maximum is 100.",
+            "type": "int32",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Blocks",
+            "examples": {
+              "application/json": "[\n  {\n    \"_id\": 1,\n    \"previous\": \"0000000000000000000000000000000000000000\",\n    \"timestamp\": \"2017-09-08T03:49:48\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 2,\n    \"previous\": \"00000001149db1db2d5fce62ae74f6dde2060988\",\n    \"timestamp\": \"2017-09-08T03:50:00\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 3,\n    \"previous\": \"00000002e376661f322afc14528be34c2a02c21d\",\n    \"timestamp\": \"2017-09-08T03:50:03\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 4,\n    \"previous\": \"00000003d64f56918d232f99aa3783572b6803b1\",\n    \"timestamp\": \"2017-09-08T03:50:06\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xxx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 5,\n    \"previous\": \"000000048ffb490561546beaa71c782f90f7c70d\",\n    \"timestamp\": \"2017-09-08T03:50:09\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xxx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 6,\n    \"previous\": \"000000054e6cb392a09686f44528e53373f48219\",\n    \"timestamp\": \"2017-09-08T03:50:12\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xxxx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 7,\n    \"previous\": \"00000006ad7191ce70e92e2ed56f4bd5732b333e\",\n    \"timestamp\": \"2017-09-08T03:50:15\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xxxx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 8,\n    \"previous\": \"0000000741d6819582d0705bddbef5e0947e9e7c\",\n    \"timestamp\": \"2017-09-08T03:50:18\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xxxx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 9,\n    \"previous\": \"000000088126b4e57a8d394f24f2dc66246f0227\",\n    \"timestamp\": \"2017-09-08T03:50:21\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xxx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 10,\n    \"previous\": \"00000009aeefa32598da9f7beebb0f1a84b6302c\",\n    \"timestamp\": \"2017-09-08T03:50:24\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xxx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxxx\",\n    \"transactions\": []\n  }\n]\n"
+            }
+          }
+        }
+      }
+    },
     "/api/blocks/{id}": {
       "get": {
         "operation": "get block detail",

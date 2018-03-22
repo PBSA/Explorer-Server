@@ -244,8 +244,14 @@ module.exports = function (blockchainAPI) {
           start = parseInt(req.query.start, 10);
         }
 
-        if (!isNaN(req.query.limit)) {
+        if (!isNaN(req.query.limit) || limit > 100) {
           limit = parseInt(req.query.limit, 10);
+
+          // Cap the maximum number per request to 100.
+          if (limit > 100) {
+            limit = 100;
+          }
+
         }
 
         // Update the specific dynamic global document in the meta collection.
@@ -287,6 +293,31 @@ module.exports = function (blockchainAPI) {
             });
 
           });
+
+      });
+
+    })
+    .head((req, res) => {
+
+      MongoClient.connect(config.MONGO, (error, db) => {
+
+        if (error) {
+          // Print the error to the logs since we can't return it in the response.
+          console.error(error);
+          return res.status(500).end();
+        }
+
+        // Retrieve the cached dynamic global which will have the latest block number on it.
+        db.collection('meta').findOne({_id: '2.1.0'}, (error, block) => {
+
+          if (error) {
+            // Print the error to the logs since we can't return it in the response.
+            console.error(error);
+            return res.status(500).end();
+          }
+
+          res.set('X-Total-Count', block.head_block_number).end();
+        });
 
       });
 
