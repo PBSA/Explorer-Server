@@ -13,27 +13,25 @@ with the BlockChain directly.
 ### Installation
 1. Install dependencies: ```npm install```
 2. If you do not have mongodb installed on your local machine then follow [this](https://docs.mongodb.com/manual/tutorial) tutorial, otherwise ...
-3. Start mongodb:  ```mongod ```
+3. Start mongodb:  ```mongod```
 4. To verify that mongodb is running, visit 'localhost:27017' in your browser
 
 ## Data Population
-### Option A - Without [forever](https://www.npmjs.com/package/forever)
+### Option A - Without listening for new blocks.
 1. Clean your database with ```npm run clean```
-2. Populate your database with ```npm start```
+2. Populate your database with ```npm run populate```
 
-### Option B - With [forever](https://www.npmjs.com/package/forever)
+### Option B - While listening for new blocks.
 *This method is recommended if you wish to leave the server running and allow it to continually fetch and store blocks*
-1. Run the populate script with forever ```npm run populateForever```
+1. Run the start script ```npm start```
 
 ### Scripts
 You may edit each one of these scripts constant values for further flexibility. For example, the getTransaction script can be modified to get any transaction object, but by default, gets the first transaction in the PeerPlays Blockchain.
 
 * Clean databases - ```npm run clean```
 * Create databases with default collections - ``` npm run create```
-* Start the blockListener - ```npm run listen```
-* Start the blockListener 'forever' - ```npm run listenForever```
-* Populate the database with limited Blocks and Transactions - ```npm start```
-* Run the populate script 'forever' - ```npm run populateForever```
+* Populate the database with Blocks - ```npm run populate```
+* Start listening for new blocks, and populating the database - ``` npm start ```
 
 ### Connecting
 You may want to connect to different databases. This can be achieved by passing the environment name via the command line.

@@ -1,0 +1,374 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Peerplays Explorer Server",
+    "description": "A RESTful api for retrieving information from the Peerplays BlockChain"
+  },
+  "host": "",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/accounts": {
+      "summary": "Operations relating to accounts on the BlockChain",
+      "get": {
+        "operationId": "get accounts",
+        "summary": "Get a list of all the accounts on the BlockChain.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "description": "A value to start at in the list of accounts. Should be alpha-numeric.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of results to return. Cannot exceed 100",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of Account Name's and ID's",
+            "examples": {
+              "application/json": "[\n  [\n    \"init0\", \n    \"1.2.x\"\n  ],\n  [\n    \"init1\", \n    \"1.2.x\"\n  ],\n  [\n    \"init10\", \n    \"1.2.x\"\n  ],\n  [\n    \"init2\", \n    \"1.2.x\"\n  ],\n  [\n    \"init3\", \n    \"1.2.x\"\n  ],\n  [\n    \"init4\", \n    \"1.2.x\"\n  ],\n  [\n    \"init5\", \n    \"1.2.x\"\n  ]\n]\n"
+            }
+          }
+        }
+      },
+      "head": {
+        "operationId": "get accounts count",
+        "summary": "Get a count of all the accounts on the BlockChain.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty Response body",
+            "headers": {
+              "X-Total-Count": {
+                "type": "int32",
+                "description": "Total number of accounts."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/accounts/{id}": {
+      "get": {
+        "operationId": "get account detail",
+        "summary": "Retrieve detail information for a specific account.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID or name of the account to retrieve",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account Detail",
+            "examples": {
+              "application/json": "{\n  \"id\": \"1.2.x\",\n  \"membership_expiration_date\": \"1969-12-31T23:59:59\",\n  \"registrar\": \"1.2.x\",\n  \"referrer\": \"1.2.x\",\n  \"lifetime_referrer\": \"1.2.x\",\n  \"network_fee_percentage\": 2000,\n  \"lifetime_referrer_fee_percentage\": 8000,\n  \"referrer_rewards_percentage\": 0,\n  \"name\": \"init0\",\n  \"owner\": {\n    \"weight_threshold\": 1,\n    \"account_auths\": [],\n    \"key_auths\": [],\n    \"address_auths\": []\n  },\n  \"active\": {\n    \"weight_threshold\": 1,\n    \"account_auths\": [],\n    \"key_auths\": [],\n    \"address_auths\": []\n  },\n  \"options\": {\n    \"memo_key\": \"xxx\",\n    \"voting_account\": \"1.2.x\",\n    \"num_witness\": 0,\n    \"num_committee\": 0,\n    \"votes\": [],\n    \"extensions\": []\n  },\n  \"statistics\": \"2.6.x\",\n  \"whitelisting_accounts\": [],\n  \"blacklisting_accounts\": [],\n  \"whitelisted_accounts\": [],\n  \"blacklisted_accounts\": [],\n  \"cashback_vb\": \"1.13.x\",\n  \"owner_special_authority\": [0, {}],\n  \"active_special_authority\": [0, {}],\n  \"top_n_control_flags\": 0\n}\n"
+            }
+          }
+        }
+      }
+    },
+    "/api/accounts/{id}/history": {
+      "get": {
+        "operationId": "get account history",
+        "summary": "Retrieve history for a specific account starting at the most recent transaction and working backwards.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters":[
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the account",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "ID of the most recent transaction",
+            "required": false,
+            "type": "int32"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of records to return, maximum of 100",
+            "required": false,
+            "type": "int32"
+          },
+          {
+            "name": "most_recent",
+            "in": "query",
+            "description": "ID of the most recent transaction to retrieve",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account History",
+            "examples": {
+              "application/json": "[\n  {\n    \"id\": \"1.11.x\",\n    \"op\": [\n      23,\n      {\n        \"fee\": {\n          \"amount\": 2000000,\n          \"asset_id\": \"1.3.x\"\n        },\n        \"fee_paying_account\": \"1.2.x\",\n        \"proposal\": \"1.10.x\",\n        \"active_approvals_to_add\": [\"1.2.x\"],\n        \"active_approvals_to_remove\": [],\n        \"owner_approvals_to_add\": [],\n        \"owner_approvals_to_remove\": [],\n        \"key_approvals_to_add\": [],\n        \"key_approvals_to_remove\": [],\n        \"extensions\": []\n      }\n    ],\n    \"result\": [0, {}],\n    \"block_num\": 1062301,\n    \"trx_in_block\": 0,\n    \"op_in_trx\": 0,\n    \"virtual_op\": 6604\n  },\n  {\n    \"id\": \"1.11.x\",\n    \"op\": [\n      23,\n      {\n        \"fee\": {\n          \"amount\": 2000000,\n          \"asset_id\": \"1.3.x\"\n        },\n        \"fee_paying_account\": \"1.2.x\",\n        \"proposal\": \"1.10.x\",\n        \"active_approvals_to_add\": [\"1.2.x\"],\n        \"active_approvals_to_remove\": [],\n        \"owner_approvals_to_add\": [],\n        \"owner_approvals_to_remove\": [],\n        \"key_approvals_to_add\": [],\n        \"key_approvals_to_remove\": [],\n        \"extensions\": []\n      }\n    ],\n    \"result\": [0, {}],\n    \"block_num\": 1062257,\n    \"trx_in_block\": 0,\n    \"op_in_trx\": 0,\n    \"virtual_op\": 6581\n  }\n]\n"
+            }
+          }
+        }
+      }
+    },
+    "/api/accounts/{id}/balances": {
+      "get": {
+        "operationId": "get account balances",
+        "summary": "Get the account balances for the requested assets.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the account",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "assets",
+            "in": "query",
+            "description": "ID of the assets to retrieve. Defaults to all assets if this is omitted",
+            "required": false,
+            "type": "array",
+            "collectionFormat": "csv",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account Balances",
+            "examples": {
+              "application/json": "[\n  {\n    \"amount\": 99999999,\n    \"asset_id\": \"1.3.0\"\n  }\n]\n"
+            }
+          }
+        }
+      }
+    },
+    "/api/blocks": {
+      "get": {
+        "operation": "get blocks",
+        "summary": "Retrieve a list of blocks from the BlockChain.",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Starting block.",
+            "type": "int32",
+            "required": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of blocks to return. Default is 10, maximum is 100.",
+            "type": "int32",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Blocks",
+            "examples": {
+              "application/json": "[\n  {\n    \"_id\": 1,\n    \"previous\": \"0000000000000000000000000000000000000000\",\n    \"timestamp\": \"2017-09-08T03:49:48\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 2,\n    \"previous\": \"00000001149db1db2d5fce62ae74f6dde2060988\",\n    \"timestamp\": \"2017-09-08T03:50:00\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 3,\n    \"previous\": \"00000002e376661f322afc14528be34c2a02c21d\",\n    \"timestamp\": \"2017-09-08T03:50:03\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 4,\n    \"previous\": \"00000003d64f56918d232f99aa3783572b6803b1\",\n    \"timestamp\": \"2017-09-08T03:50:06\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xxx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 5,\n    \"previous\": \"000000048ffb490561546beaa71c782f90f7c70d\",\n    \"timestamp\": \"2017-09-08T03:50:09\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xxx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 6,\n    \"previous\": \"000000054e6cb392a09686f44528e53373f48219\",\n    \"timestamp\": \"2017-09-08T03:50:12\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xxxx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 7,\n    \"previous\": \"00000006ad7191ce70e92e2ed56f4bd5732b333e\",\n    \"timestamp\": \"2017-09-08T03:50:15\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xxxx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 8,\n    \"previous\": \"0000000741d6819582d0705bddbef5e0947e9e7c\",\n    \"timestamp\": \"2017-09-08T03:50:18\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xxxx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 9,\n    \"previous\": \"000000088126b4e57a8d394f24f2dc66246f0227\",\n    \"timestamp\": \"2017-09-08T03:50:21\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xxx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxxx\",\n    \"transactions\": []\n  },\n  {\n    \"_id\": 10,\n    \"previous\": \"00000009aeefa32598da9f7beebb0f1a84b6302c\",\n    \"timestamp\": \"2017-09-08T03:50:24\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xxx\",\n    \"previous_secret\": \"0000000000000000000000000000000000000000\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\":\n      \"xxxx\",\n    \"transactions\": []\n  }\n]\n"
+            }
+          }
+        }
+      }
+    },
+    "/api/blocks/{id}": {
+      "get": {
+        "operation": "get block detail",
+        "summary": "Retrieve a single block from the BlockChain.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Number of the block",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Block detail",
+            "examples": {
+              "application/json": "{\n    \"previous\": \"xxx\",\n    \"timestamp\": \"2018-03-19T19:23:36\",\n    \"witness\": \"1.6.x\",\n    \"next_secret_hash\": \"xxx\",\n    \"previous_secret\": \"xxx\",\n    \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n    \"extensions\": [],\n    \"witness_signature\": \"xxx\",\n    \"transactions\": []\n}"
+            }
+          }
+        }
+      }
+    },
+    "/api/blocks/{id}/header": {
+      "get": {
+        "operation": "get block header",
+        "summary": "Retrieve the header for a single block.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Number of the block",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Block header",
+            "examples": {
+              "application/json": "{\n  \"previous\": \"xxx\",\n  \"timestamp\": \"2018-02-08T16:20:45\",\n  \"witness\": \"1.6.x\",\n  \"next_secret_hash\": \"xxx\",\n  \"previous_secret\": \"xxx\",\n  \"transaction_merkle_root\": \"0000000000000000000000000000000000000000\",\n  \"extensions\": []\n}\n"
+            }
+          }
+        }
+      }
+    },
+    "/api/objects/{id}": {
+      "get": {
+        "operation": "get raw object",
+        "summary": "Retrieve the specified object.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the object",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Object",
+            "examples": {
+              "application/json": "{\n    \"id\": \"2.1.0\",\n    \"random\": \"xxx\",\n    \"head_block_number\": 1065060,\n    \"head_block_id\": \"xxx\",\n    \"time\": \"2018-03-19T19:26:51\",\n    \"current_witness\": \"1.6.x\",\n    \"next_maintenance_time\": \"2018-03-19T19:30:00\",\n    \"last_budget_time\": \"2018-03-19T19:20:00\",\n    \"witness_budget\": 0,\n    \"accounts_registered_this_interval\": 0,\n    \"recently_missed_count\": 0,\n    \"current_aslot\": 1331904,\n    \"recent_slots_filled\": \"xxx\",\n    \"dynamic_flags\": 0,\n    \"last_irreversible_block_num\": 1065053\n}"
+            }
+          }
+        }
+      }
+    },
+    "/api/operations/{id}": {
+      "get": {
+        "operation": "get operation",
+        "summary": "Retrieve the specified operation.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the operation",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation",
+            "examples": {
+              "application/json": "{\n  \"id\": \"1.11.xxx\",\n  \"op\": [\n    49,\n    {\n      \"fee\": {\n        \"amount\": 0,\n        \"asset_id\": \"1.3.0\"\n      },\n      \"dividend_asset_id\": \"1.3.0\",\n      \"account_id\": \"1.2.x\",\n      \"amounts\": [\n        {\n          \"amount\": 1126,\n          \"asset_id\": \"1.3.0\"\n        }\n      ],\n      \"extensions\": []\n    }\n  ],\n  \"result\": [0, {}],\n  \"block_num\": 1627629,\n  \"trx_in_block\": 0,\n  \"op_in_trx\": 1,\n  \"virtual_op\": 4517\n}\n"
+            }
+          }
+        }
+      }
+    },
+    "/api/witnesses": {
+      "get": {
+        "operation": "get all witnesses",
+        "summary": "Retrieve all of the witnesses.",
+        "parameters": [
+          {
+            "name": "starting_name",
+            "in": "query",
+            "description": "The name to start with when returning results.",
+            "required": false,
+            "type": "string" 
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of results to return. Cannot exceed 100",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All Witnesses",
+            "examples": {
+              "application/json": "[\n    [\n        \"init0\",\n        \"1.6.1\"\n    ],\n    [\n        \"init1\",\n        \"1.6.2\"\n    ],\n    [\n        \"init10\",\n        \"1.6.11\"\n    ]\n]"
+            }
+          }
+        }
+      },
+      "head": {
+        "operationId": "get witnesses count",
+        "summary": "Get a count of all the witnesses on the BlockChain.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty Response body",
+            "headers": {
+              "X-Total-Count": {
+                "type": "int32",
+                "description": "Total number of witnesses."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/witnesses/{id}": {
+      "get": {
+        "operationId": "get witness detail",
+        "summary": "Retrieve detail information for a specific witness.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID or name of the witness to retrieve",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Witness Detail",
+            "examples": {
+              "application/json": "{\n    \"id\": \"1.6.x\",\n    \"witness_account\": \"1.2.x\",\n    \"last_aslot\": 1331780,\n    \"signing_key\": \"XXX\",\n    \"next_secret_hash\": \"XXX\",\n    \"previous_secret\": \"XXX\",\n    \"pay_vb\": \"1.13.x\",\n    \"vote_id\": \"1:0\",\n    \"total_votes\": \"999974402336154\",\n    \"url\": \"\",\n    \"total_missed\": 24257,\n    \"last_confirmed_block_num\": 1064936\n}"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,77 @@
+@import url('//fonts.googleapis.com/css?family=Barlow:300,300i,400,400i,600,600i');
+
+#swagger-ui .information-container p {
+  font-size: 18px;
+  font-family: 'Barlow','HelveticaNeue','Helvetica Neue',Helvetica,Arial,sans-serif !important;
+  color: #3a4a9f;
+}
+
+.topbar {
+  display: none;
+}
+
+#swagger-ui .opblock-tag-section h4 {
+  display: none;
+}
+
+#swagger-ui .information-container {
+  padding: 0 20px;
+  color: #000;
+}
+
+#swagger-ui .information-container h2.title {
+  background: url('https://www.peerplays.com/wp-content/uploads/2017/11/peerplays_logo.png') no-repeat;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  height: 100px;
+}
+
+#swagger-ui .swagger-ui .info {
+  margin: 0;
+}
+
+#swagger-ui .info .base-url {
+  display: none;
+}
+
+#swagger-ui .swagger-ui table tbody tr td {
+  padding: 5px 0 0;
+}
+
+#swagger-ui .swagger-ui .response-col_status {
+  width: 100px;
+  min-width: auto;
+  max-width: 100px;
+}
+
+#swagger-ui .swagger-ui table p {
+  margin: 5px 0;
+}
+
+#swagger-ui .swagger-ui .response-content-type {
+  padding-top: 0;
+}
+
+#swagger-ui .swagger-ui .tab {
+  display: none;
+}
+
+#swagger-ui .swagger-ui .execute-wrapper {
+  padding: 0;
+}
+
+#swagger-ui .swagger-ui .btn-group {
+  justify-content: flex-end;
+}
+
+#swagger-ui .swagger-ui .btn-group .btn {
+  flex: 0 0 auto;
+}
+
+#swagger-ui .swagger-ui .btn.execute {
+  width: 100px;
+  padding: 0;
+  margin: 10px;
+}
+
