@@ -6,7 +6,8 @@
     "start": "./node_modules/.bin/forever index.js",
     "create": "node src/utils/create.js",
     "clean": "node src/utils/cleanDB.js",
-    "populate": "node src/utils/populate.js"
+    "populate": "node src/utils/populate.js",
+    "populateAll": "node src/utils/populateAll.js"
   },
   "repository": {
     "type": "git",

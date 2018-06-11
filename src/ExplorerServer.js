@@ -9,21 +9,21 @@ const config = require('../config');
 
 class ExplorerServer {
 
-  constructor (connect, ready) {
-    
-    
+  constructor(connect, ready) {
+
+
     if (typeof connect === 'function') {
       ready = connect;
       connect = true;
     }
-    
+
     this.socketServer = null;
 
     this.collections = {
       transactions: false,
       blocks: false
     };
-    
+
     this.count_livenet_blocks = 0;
 
     // Used in some cases when we don't need to be connected to the BlockChain
@@ -38,7 +38,7 @@ class ExplorerServer {
 
       // Listen for the BlockChain to be ready.
       this.api.init_promise.then(() => {
-        
+
         // Initialize the ChainStore so its ready to receive updates from the BlockChain.
         ChainStore
           .init()
@@ -56,7 +56,7 @@ class ExplorerServer {
    * 
    * @memberof ExplorerServer
    */
-  start () {
+  start() {
     this.createCollections(() => this.startListening());
   }
 
@@ -66,20 +66,20 @@ class ExplorerServer {
    * @param {function} callback Function to execute when the collections are created.
    * @memberof ExplorerServer
    */
-  createCollections (callback) {
+  createCollections(callback) {
 
     // Use connect method to connect to the server & create collections for Livenet Blocks
-    MongoClient.connect(config.MONGO, (error, db) => { 
+    MongoClient.connect(config.MONGO, (error, db) => {
       if (error) {
         return callback(error);
       }
-  
+
       console.log(`ExplorerServer> Connected to ${config.MONGO}`);
-  
+
       db.createCollection('blocks', this.collectionCreated.bind(this, db, 'blocks', callback));
       db.createCollection('meta', this.collectionCreated.bind(this, db, 'meta', callback));
     });
-  
+
   }
 
   /**
@@ -91,14 +91,14 @@ class ExplorerServer {
    * @param {error} error An error thrown when trying to create a collection
    * @memberof ExplorerServer
    */
-  collectionCreated (db, collection, callback, error) {
+  collectionCreated(db, collection, callback, error) {
 
     if (error) {
       return callback(error);
     }
-  
+
     console.log(`ExplorerServer> Collection ${collection} created on ${config.MONGO}.`);
-  
+
     this.collections[collection] = true;
 
     if (this.collections.blocks && this.collections.meta) {
@@ -108,7 +108,7 @@ class ExplorerServer {
 
       return callback(null);
     }
-  
+
   }
 
   /**
@@ -116,7 +116,7 @@ class ExplorerServer {
    * 
    * @memberof ExplorerServer
    */
-  startListening () {
+  startListening() {
     ChainStore.subscribe(this.updateDatabase.bind(this));
   }
 
@@ -125,8 +125,8 @@ class ExplorerServer {
    * 
    * @memberof ExplorerServer
    */
-  updateDatabase () {
-    
+  updateDatabase() {
+
     // Get the dynamicGlobal which provides metadata, like the latest block number.
     this.getObject('2.1.0', (error, dynamicGlobal) => {
 
@@ -174,13 +174,13 @@ class ExplorerServer {
    * @param {function} callback
    * @memberof ExplorerServer
    */
-  getObject (assetId, callback) {
+  getObject(assetId, callback) {
 
     if (typeof assetId === 'function') {
       callback = assetId;
       assetId = null;
-    } 
- 
+    }
+
     if (!assetId) {
       return callback(new Error('Missing asset id.'));
     }
@@ -201,7 +201,7 @@ class ExplorerServer {
    * @returns 
    * @memberof ExplorerServer
    */
-  getBlock (blockNumber, callback) {
+  getBlock(blockNumber, callback) {
     console.log('Block Number : ', blockNumber);
 
     if (typeof blockNumber === 'function') {
@@ -216,13 +216,29 @@ class ExplorerServer {
       });
   }
 
+
+
+  /**
+   * Populate the MongoDB starting at block 1
+   *
+   * @param {*} callback
+   * @memberof ExplorerServer
+   */
+  populateAll (callback) {
+    
+    MongoClient.connect(config.MONGO, (error, db) => {
+      if (error) return callback(error);
+      this.populateBlock(1);    
+    });
+  }
+
   /**
    * Populate the MongoDB with Blocks.
    * 
    * @param {function} callback 
    * @memberof ExplorerServer
    */
-  populate (callback) {
+  populate(callback) {
 
     MongoClient.connect(config.MONGO, (error, db) => {
 
@@ -261,7 +277,7 @@ class ExplorerServer {
         db.close();
 
       });
-    
+
     });
 
   }
@@ -272,7 +288,7 @@ class ExplorerServer {
    * @param {number} blockNumber The block number to insert into Mongo.
    * @memberof ExplorerServer
    */
-  populateBlock (blockNumber) {
+  populateBlock(blockNumber) {
 
     this.insertBlock(blockNumber, (error, block) => {
 
@@ -300,8 +316,8 @@ class ExplorerServer {
    * @param {function} callback 
    * @memberof ExplorerServer
    */
-  insertBlock (blockNumber, callback) {
-    
+  insertBlock(blockNumber, callback) {
+
     this.api.db_api().exec('get_block', [blockNumber]).then(block => {
 
       // When a block is not found we assume we are up to date.
@@ -325,7 +341,7 @@ class ExplorerServer {
           // Close the connection to Mongo.
           db.close();
 
-          if (error) { 
+          if (error) {
             return callback(error);
           }
 
@@ -355,7 +371,7 @@ class ExplorerServer {
    * @param {function} callback 
    * @memberof ExplorerServer
    */
-  updateDynamicGlobal (dynamicGlobal, callback) {
+  updateDynamicGlobal(dynamicGlobal, callback) {
 
     // Establish a connection to the MongoDatabase.
     MongoClient.connect(config.MONGO, (error, db) => {
@@ -372,7 +388,7 @@ class ExplorerServer {
       };
 
       // Update the specific dynamic global document in the meta collection.
-      db.collection('meta').update({_id: '2.1.0'}, dynamicGlobal, options, (error) => {
+      db.collection('meta').update({ _id: '2.1.0' }, dynamicGlobal, options, (error) => {
 
         // Clean up the connection to the database
         db.close();
@@ -390,7 +406,7 @@ class ExplorerServer {
    * @param {any} callback 
    * @memberof ExplorerServer
    */
-  cleanDatabase (callback) {
+  cleanDatabase(callback) {
 
     cleanMongo(config.MONGO)
       .then(this.closeDatabaseConnection.bind(this, `ExplorerServer> Cleaning ${config.MONGO}`))
@@ -406,7 +422,7 @@ class ExplorerServer {
    * @param {JSON} block Single block in the BlockChain
    * @memberof ExplorerServer
    */
-  logBlockData (block) {
+  logBlockData(block) {
     // Edit this function to log more or less information.
     console.log('\nExplorerServer>----- DB Meta Info -----');
     console.log(`ExplorerServer> Block ${block._id} Added.`);
