@@ -228,7 +228,7 @@ class ExplorerServer {
     
     MongoClient.connect(config.MONGO, (error, db) => {
       if (error) return callback(error);
-      this.populateBlock(1);    
+      this.populateBlock(13439);    
     });
   }
 
@@ -242,9 +242,9 @@ class ExplorerServer {
 
     MongoClient.connect(config.MONGO, (error, db) => {
 
-      if (error) {
-        return callback(error);
-      }
+      // if (error) {
+      //   return callback(error);
+      // }
 
       // Set the cursor to our newest id.
       var cursor = db.collection('blocks').find().limit(1).sort({ _id: -1 });
@@ -293,10 +293,10 @@ class ExplorerServer {
     this.insertBlock(blockNumber, (error, block) => {
 
       // If we didn't insert a block then we're up to date.
-      if (!block) {
-        // Call the next part to start listening for socket events.
-        return;
-      }
+      // if (!block) {
+      //   // Call the next part to start listening for socket events.
+      //   return;
+      // }
 
       // Recursive but taking advantage of setImmediate so we do not blow the stack.
       setImmediate(this.populateBlock.bind(this, blockNumber + 1), (error) => {
